@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telegram User Info</title>
+  <title>Telegram Mini App</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -51,30 +51,33 @@
   </div>
 
   <script>
-    // Initialize Telegram WebApp
-    const telegram = window.Telegram.WebApp;
+    // Check if Telegram WebApp is available
+    if (window.Telegram?.WebApp) {
+      const telegram = window.Telegram.WebApp;
 
-    // Wait for WebApp to be ready
-    telegram.ready();
+      // Initialize WebApp
+      telegram.ready();
 
-    // Fetch user information
-    const user = telegram.initDataUnsafe?.user;
+      // Fetch user information
+      const user = telegram.initDataUnsafe?.user;
 
-    // Target the info box
-    const userInfoDiv = document.getElementById('user-info');
-
-    if (user) {
-      const isPremium = user.is_premium ? "Yes (Premium User)" : "No (Regular User)";
-      userInfoDiv.innerHTML = `
-        <p><strong>Full Name:</strong> ${user.first_name} ${user.last_name || ''}</p>
-        <p><strong>Username:</strong> @${user.username || 'Not Set'}</p>
-        <p><strong>User ID:</strong> ${user.id}</p>
-        <p><strong>Premium Status:</strong> ${isPremium}</p>
-      `;
+      // Update the DOM with user data
+      const userInfoDiv = document.getElementById('user-info');
+      if (user) {
+        const isPremium = user.is_premium ? "Yes (Premium User)" : "No (Regular User)";
+        userInfoDiv.innerHTML = `
+          <p><strong>Full Name:</strong> ${user.first_name} ${user.last_name || ''}</p>
+          <p><strong>Username:</strong> @${user.username || 'Not Set'}</p>
+          <p><strong>User ID:</strong> ${user.id}</p>
+          <p><strong>Premium Status:</strong> ${isPremium}</p>
+        `;
+      } else {
+        userInfoDiv.innerHTML = `
+          <p style="color: red;">Unable to fetch user information. Please open this Mini App inside Telegram.</p>
+        `;
+      }
     } else {
-      userInfoDiv.innerHTML = `
-        <p style="color: red;">Error: Unable to fetch user information. Please open this in Telegram.</p>
-      `;
+      alert('Telegram WebApp API not available. Please open this link inside Telegram.');
     }
   </script>
 </body>
