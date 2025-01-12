@@ -12,48 +12,69 @@
       padding: 20px;
       background-color: #f4f4f9;
     }
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+    }
     h1 {
       color: #333;
+      font-size: 24px;
     }
-    .info {
-      background: #fff;
+    .info-box {
+      text-align: left;
+      margin-top: 20px;
       padding: 15px;
-      margin: 20px auto;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
     }
-    .info p {
+    .info-box p {
       margin: 10px 0;
+      font-size: 16px;
+      color: #555;
+    }
+    .info-box strong {
+      color: #000;
     }
   </style>
 </head>
 <body>
-  <h1>Telegram User Info</h1>
-  <div id="user-info" class="info">
-    <p>Loading user information...</p>
+  <div class="container">
+    <h1>Telegram User Info</h1>
+    <div id="user-info" class="info-box">
+      <p>Loading user information...</p>
+    </div>
   </div>
 
   <script>
-    // Initialize Telegram Web App
+    // Initialize Telegram WebApp
     const telegram = window.Telegram.WebApp;
 
     // Wait for WebApp to be ready
     telegram.ready();
 
-    // Check if user data is available
+    // Fetch user information
     const user = telegram.initDataUnsafe?.user;
+
+    // Target the info box
     const userInfoDiv = document.getElementById('user-info');
 
     if (user) {
+      const isPremium = user.is_premium ? "Yes (Premium User)" : "No (Regular User)";
       userInfoDiv.innerHTML = `
         <p><strong>Full Name:</strong> ${user.first_name} ${user.last_name || ''}</p>
         <p><strong>Username:</strong> @${user.username || 'Not Set'}</p>
         <p><strong>User ID:</strong> ${user.id}</p>
-        <p><strong>Language:</strong> ${telegram.initDataUnsafe.language || 'Unknown'}</p>
+        <p><strong>Premium Status:</strong> ${isPremium}</p>
       `;
     } else {
-      userInfoDiv.innerHTML = '<p>Error: Unable to fetch user information. Please open this in Telegram.</p>';
+      userInfoDiv.innerHTML = `
+        <p style="color: red;">Error: Unable to fetch user information. Please open this in Telegram.</p>
+      `;
     }
   </script>
 </body>
