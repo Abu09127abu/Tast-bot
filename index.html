@@ -35,17 +35,16 @@
   </div>
 
   <script>
-    // Initialize Telegram Web Apps API
+    // Initialize Telegram Web App
     const telegram = window.Telegram.WebApp;
 
-    // Wait for the Web App to be ready
+    // Wait for WebApp to be ready
     telegram.ready();
 
-    // Fetch user data
+    // Check if user data is available
     const user = telegram.initDataUnsafe?.user;
-
-    // Display user info if available
     const userInfoDiv = document.getElementById('user-info');
+
     if (user) {
       userInfoDiv.innerHTML = `
         <p><strong>Full Name:</strong> ${user.first_name} ${user.last_name || ''}</p>
@@ -54,7 +53,7 @@
         <p><strong>Language:</strong> ${telegram.initDataUnsafe.language || 'Unknown'}</p>
       `;
     } else {
-      userInfoDiv.innerHTML = '<p>Unable to fetch user information. Please open this in Telegram.</p>';
+      userInfoDiv.innerHTML = '<p>Error: Unable to fetch user information. Please open this in Telegram.</p>';
     }
   </script>
 </body>
