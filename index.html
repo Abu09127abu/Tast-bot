@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram User Info</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      color: #333;
+    }
+    .info {
+      background: #fff;
+      padding: 15px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+    }
+    .info p {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Telegram User Info</h1>
+  <div id="user-info" class="info">
+    <p>Loading user information...</p>
+  </div>
+
+  <script>
+    // Initialize Telegram Web Apps API
+    const telegram = window.Telegram.WebApp;
+
+    // Wait for the Web App to be ready
+    telegram.ready();
+
+    // Fetch user data
+    const user = telegram.initDataUnsafe?.user;
+
+    // Display user info if available
+    const userInfoDiv = document.getElementById('user-info');
+    if (user) {
+      userInfoDiv.innerHTML = `
+        <p><strong>Full Name:</strong> ${user.first_name} ${user.last_name || ''}</p>
+        <p><strong>Username:</strong> @${user.username || 'Not Set'}</p>
+        <p><strong>User ID:</strong> ${user.id}</p>
+        <p><strong>Language:</strong> ${telegram.initDataUnsafe.language || 'Unknown'}</p>
+      `;
+    } else {
+      userInfoDiv.innerHTML = '<p>Unable to fetch user information. Please open this in Telegram.</p>';
+    }
+  </script>
+</body>
+</html>
